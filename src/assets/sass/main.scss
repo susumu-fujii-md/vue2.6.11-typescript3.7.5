@@ -1,3 +1,7 @@
+@import "common.scss";
+
 div {
-  background: #c0d2c8;
+  color: #fff;
+
+  @include testMixin;
 }
