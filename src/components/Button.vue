@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button>{{ label }}</button>
+    <button>{{ buttonLabel }}</button>
   </div>
 </template>
 
@@ -9,6 +9,6 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class Button extends Vue {
-  @Prop() private label!: string;
+  @Prop() private buttonLabel!: string;
 }
 </script>
