@@ -14,7 +14,11 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
+import _ from 'lodash';
+
 import Button from '@/components/Button.vue'
+import { InputTodoModule } from '@/modules/InputTodoModule'
+import { Todo } from '@/types/Todo'
 
 @Component({
   components: {
@@ -36,6 +40,7 @@ export default class Form extends Vue {
       this.errors.push('Item is required.');
     }
 
+    InputTodoModule.SET_VALUE(this.value);
     return this.value;
   }
 }
