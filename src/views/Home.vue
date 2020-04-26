@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <Form label="Input new item" />
+    <Form />
   </div>
 </template>
 

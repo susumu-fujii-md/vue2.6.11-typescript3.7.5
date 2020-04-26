@@ -6,8 +6,10 @@
         <li v-for="error in errors">{{ error }}</li>
       </ul>
     </p>
-    <label>{{ label }}: <input type="text" v-model="value"></label>
-    <p>{{ value }}</p>
+    <label>User ID (email): <input type="text" v-model="userId"></label>
+    <label>Last Name: <input type="text" v-model="lastName"></label>
+    <label>First Name: <input type="text" v-model="firstName"></label>
+    <label>Password: <input type="text" v-model="password"></label>
     <Button buttonLabel="SUBMIT" />
   </form>
 </template>
@@ -17,8 +19,8 @@ import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import _ from 'lodash';
 
 import Button from '@/components/Button.vue'
-import { InputTodoModule } from '@/modules/InputTodoModule'
-import { Todo } from '@/types/Todo'
+import { SignUpModule } from '@/modules/SignUpModule'
+import { UserType } from '@/types/UserType'
 
 @Component({
   components: {
@@ -26,22 +28,35 @@ import { Todo } from '@/types/Todo'
   }
 })
 export default class Form extends Vue {
-  value: string = '';
-  errors: Array<string> = [];
+  userId: string = '';
+  lastName: string = '';
+  firstName: string = '';
+  password: string = '';
 
-  @Prop() private label!: string;
+  errors: string[] = [];
 
   @Emit()
-  submit(e: Event) {
+  submit(e: Event): void {
     e.preventDefault();
     this.errors = [];
 
-    if (!this.value) {
-      this.errors.push('Item is required.');
+    if (!this.userId) {
+      this.errors.push('User ID is required.');
     }
 
-    InputTodoModule.SET_VALUE(this.value);
-    return this.value;
+    if (!this.lastName) {
+      this.errors.push('Last Name is required.');
+    }
+
+    if (!this.firstName) {
+      this.errors.push('First Name is required.');
+    }
+
+    if (!this.password) {
+      this.errors.push('Password is required.');
+    }
+
+    SignUpModule.SET_USER_ID(this.userId);
   }
 }
 </script>
