@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
+    <h2>Sign Up</h2>
     <Form />
   </div>
 </template>

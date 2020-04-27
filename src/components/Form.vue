@@ -21,8 +21,21 @@ import _ from 'lodash';
 import Button from '@/components/Button.vue'
 import { SignUpModule } from '@/modules/SignUpModule'
 import { UserType } from '@/types/UserType'
+import config from '@/mixins/Config';
 
 @Component({
+  mixins: [config],
+  methods: {
+    signIn() {
+      console.log('signIn was called.');
+      this.getUser({
+        userId: this.userId,
+        givenName: this.firstName,
+        familyName: this.lastName,
+        password: this.password
+      });
+    }
+  },
   components: {
     Button
   }
@@ -56,7 +69,17 @@ export default class Form extends Vue {
       this.errors.push('Password is required.');
     }
 
+    // TODO: Error handling for type check.
     SignUpModule.SET_USER_ID(this.userId);
+
+    if (this.userId && this.lastName && this.password) {
+      this.signIn({
+        userId: this.userId,
+        givenName: this.firstName,
+        familyName: this.lastName,
+        password: this.password,
+      });
+    }
   }
 }
 </script>
