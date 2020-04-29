@@ -1,6 +1,8 @@
 import { Component, Vue } from 'vue-property-decorator';
 import AWS from 'aws-sdk/global';
 import {
+  AuthenticationDetails,
+  CognitoUser,
   CognitoUserPool,
   CognitoUserAttribute,
 } from 'amazon-cognito-identity-js';
@@ -17,15 +19,15 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
   IdentityPoolId: CONFIG.IdentityPoolId,
 });
 
+const USER_POOL = new CognitoUserPool({
+  UserPoolId: CONFIG.UserPoolId,
+  ClientId: CONFIG.ClientId,
+});
+
 @Component
 export default class Config extends Vue {
-  getUser(params) {
+  signUp(params) {
     const { userId, givenName, familyName, password } = params;
-
-    const userPool = new CognitoUserPool({
-      UserPoolId: CONFIG.UserPoolId,
-      ClientId: CONFIG.ClientId,
-    });
 
     const attributeList = [];
 
@@ -42,7 +44,7 @@ export default class Config extends Vue {
     );
 
     return new Promise((resolve, reject) => {
-      userPool.signUp(
+      USER_POOL.signUp(
         userId, // Must be an email address.
         password,
         attributeList,
@@ -55,6 +57,31 @@ export default class Config extends Vue {
           }
         }
       );
+    });
+  }
+
+  signIn(params) {
+    const { userId, password } = params;
+
+    const cognitoUser = new CognitoUser({
+      Username: userId,
+      Pool: USER_POOL,
+    });
+
+    const authenticationDetails = new AuthenticationDetails({
+      Username: userId,
+      Password: password,
+    });
+
+    return new Promise((resolve, reject) => {
+      cognitoUser.authenticateUser(authenticationDetails, {
+        onSuccess: (result) => {
+          resolve(result);
+        },
+        onFailure: (err) => {
+          reject(err);
+        },
+      });
     });
   }
 }
