@@ -40,7 +40,7 @@ import config from '@/mixins/Config';
     Button
   }
 })
-export default class Form extends Vue {
+export default class SignUpForm extends Vue {
   userId: string = '';
   lastName: string = '';
   firstName: string = '';
