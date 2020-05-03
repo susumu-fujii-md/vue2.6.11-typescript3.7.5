@@ -3,6 +3,7 @@ node_modules
 /dist
 
 # local env files
+/server/.env
 .env.local
 .env.*.local
 
@@ -19,3 +20,9 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Credentials
+config.json
+
+# temp file
+/server/temp/
