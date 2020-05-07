@@ -26,3 +26,12 @@ config.json
 
 # temp file
 /server/temp/
+
+# Deploy package
+/lambda-s3/function.zip
+
+# Dummy image
+/lambda-s3/*.jpg
+
+# Test event data
+/lambda-s3/*.txt
