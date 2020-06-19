@@ -9,6 +9,7 @@
 import axios from 'axios';
 import { Component, Vue, Emit } from 'vue-property-decorator';
 import Button from '@/components/Button.vue';
+import { HTMLElementEvent } from '@/types/Common';
 
 @Component({
   data() {
@@ -22,9 +23,7 @@ import Button from '@/components/Button.vue';
 })
 export default class ImageUploader extends Vue {
   @Emit()
-  selectFile(e: Event): void {
-    e.preventDefault();
-
+  selectFile(e: HTMLElementEvent<HTMLInputElement>): void {
     const files = e.target.files;
     this.uploadFile = files[0];
   }
