@@ -5,13 +5,13 @@ import {
   VuexModule,
 } from 'vuex-module-decorators';
 import { store } from '@/store';
-import { UserType } from '@/types/UserType';
+import { SignUpType } from '@/types/';
 
 @Module({ dynamic: true, store, name: '_SignUp', namespaced: true })
-class SignUp extends VuexModule implements UserType {
+class SignUp extends VuexModule implements SignUpType {
   userId: string = '';
-  lastName: string = '';
-  firstName: string = '';
+  familyName: string = '';
+  givenName: string = '';
   password: string = '';
 
   @Mutation
@@ -20,13 +20,13 @@ class SignUp extends VuexModule implements UserType {
   }
 
   @Mutation
-  public SET_LAST_NAME(lastName: string): void {
-    this.lastName = lastName;
+  public SET_FAMILY_NAME(familyName: string): void {
+    this.familyName = familyName;
   }
 
   @Mutation
-  public SET_FIRST_NAME(firstName: string): void {
-    this.firstName = firstName;
+  public SET_GIVEN_NAME(givenName: string): void {
+    this.givenName = givenName;
   }
 
   @Mutation

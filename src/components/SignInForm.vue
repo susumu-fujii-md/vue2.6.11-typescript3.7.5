@@ -1,14 +1,14 @@
 <template>
   <form @submit="submit">
-    <p v-if="errors.length">
+    <p v-if="errors && errors.length > 0">
       <b>Please correct the following error(s):</b>
       <ul>
-        <li v-for="error in errors">{{ error }}</li>
+        <li v-for="(error, index) in errors" :key="generateKey(index)">{{ error }}</li>
       </ul>
     </p>
     <label>User ID (email): <input type="text" v-model="userId"></label>
     <label>Password: <input type="text" v-model="password"></label>
-    <Button buttonLabel="SUBMIT" />
+    <Button buttonLabel="SUBMIT" type="submit" />
   </form>
 </template>
 
@@ -16,25 +16,27 @@
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import _ from 'lodash';
 
-import Button from '@/components/Button.vue'
-import { SignUpModule } from '@/modules/SignUpModule'
-import { UserType } from '@/types/UserType'
+import Button from '@/components/Button.vue';
+import { SignUpModule } from '@/modules/SignUpModule';
+import { SignUpType } from '@/types/';
 import config from '@/mixins/Config';
 
 @Component({
   mixins: [config],
   methods: {
     requestSignIn() {
-      console.log('signIn was called.');
-      this.signIn({
-        userId: this.userId,
-        password: this.password
+      (this as any).signIn({
+        userId: (this as any).userId,
+        password: (this as any).password,
       });
-    }
+    },
+    generateKey(index) {
+      return `error-${index}`;
+    },
   },
   components: {
-    Button
-  }
+    Button,
+  },
 })
 export default class SignInForm extends Vue {
   userId: string = '';
@@ -59,7 +61,7 @@ export default class SignInForm extends Vue {
     SignUpModule.SET_USER_ID(this.userId);
 
     if (this.userId && this.password) {
-      this.requestSignIn({
+      (this as any).requestSignIn({
         userId: this.userId,
         password: this.password,
       });

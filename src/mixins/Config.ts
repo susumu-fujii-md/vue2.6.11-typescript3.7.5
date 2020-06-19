@@ -6,12 +6,13 @@ import {
   CognitoUserPool,
   CognitoUserAttribute,
 } from 'amazon-cognito-identity-js';
+import { SignUpType, SignInType } from '@/types/';
 
 const CONFIG = {
   region: process.env.VUE_APP_REGION,
-  IdentityPoolId: process.env.VUE_APP_IDENTITY_POOL_ID,
-  UserPoolId: process.env.VUE_APP_USER_POOL_ID,
-  ClientId: process.env.VUE_APP_CLIENT_ID,
+  IdentityPoolId: process.env.VUE_APP_IDENTITY_POOL_ID as string,
+  UserPoolId: process.env.VUE_APP_USER_POOL_ID as string,
+  ClientId: process.env.VUE_APP_CLIENT_ID as string,
 };
 
 AWS.config.region = CONFIG.region;
@@ -26,29 +27,23 @@ const USER_POOL = new CognitoUserPool({
 
 @Component
 export default class Config extends Vue {
-  signUp(params) {
+  signUp(params: SignUpType) {
     const { userId, givenName, familyName, password } = params;
 
-    const attributeList = [];
-
-    attributeList.push(
-      new CognitoUserAttribute({ Name: 'given_name', Value: givenName })
-    );
-    attributeList.push(
-      new CognitoUserAttribute({ Name: 'family_name', Value: familyName })
-    );
-
     const now = Math.floor(new Date().getTime() / 1000);
-    attributeList.push(
-      new CognitoUserAttribute({ Name: 'updated_at', Value: String(now) })
-    );
+
+    const attributeList = [
+      new CognitoUserAttribute({ Name: 'given_name', Value: givenName }),
+      new CognitoUserAttribute({ Name: 'family_name', Value: familyName }),
+      new CognitoUserAttribute({ Name: 'updated_at', Value: String(now) }),
+    ];
 
     return new Promise((resolve, reject) => {
       USER_POOL.signUp(
         userId, // Must be an email address.
         password,
         attributeList,
-        null,
+        [],
         (err, result) => {
           if (err) {
             reject(err);
@@ -60,7 +55,7 @@ export default class Config extends Vue {
     });
   }
 
-  signIn(params) {
+  signIn(params: SignInType) {
     const { userId, password } = params;
 
     const cognitoUser = new CognitoUser({

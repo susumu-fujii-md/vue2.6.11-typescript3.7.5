@@ -1,16 +1,16 @@
 <template>
   <form @submit="submit">
-    <p v-if="errors.length">
+    <p v-if="errors && errors.length > 0">
       <b>Please correct the following error(s):</b>
       <ul>
-        <li v-for="error in errors">{{ error }}</li>
+        <li v-for="(error, index) in errors" :key="generateKey(index)">{{ error }}</li>
       </ul>
     </p>
     <label>User ID (email): <input type="text" v-model="userId"></label>
-    <label>Last Name: <input type="text" v-model="lastName"></label>
-    <label>First Name: <input type="text" v-model="firstName"></label>
+    <label>Given Name: <input type="text" v-model="givenName"></label>
+    <label>Family Name: <input type="text" v-model="familyName"></label>
     <label>Password: <input type="text" v-model="password"></label>
-    <Button buttonLabel="SUBMIT" />
+    <Button buttonLabel="SUBMIT" type="submit" />
   </form>
 </template>
 
@@ -18,32 +18,34 @@
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import _ from 'lodash';
 
-import Button from '@/components/Button.vue'
-import { SignUpModule } from '@/modules/SignUpModule'
-import { UserType } from '@/types/UserType'
+import Button from '@/components/Button.vue';
+import { SignUpModule } from '@/modules/SignUpModule';
+import { SignUpType } from '@/types/';
 import config from '@/mixins/Config';
 
 @Component({
   mixins: [config],
   methods: {
     requestSignUp() {
-      console.log('signIn was called.');
-      this.signUp({
-        userId: this.userId,
-        givenName: this.firstName,
-        familyName: this.lastName,
-        password: this.password
+      (this as any).signUp({
+        userId: (this as any).userId,
+        givenName: (this as any).givenName,
+        familyName: (this as any).familyName,
+        password: (this as any).password,
       });
-    }
+    },
+    generateKey(index) {
+      return `error-${index}`;
+    },
   },
   components: {
-    Button
-  }
+    Button,
+  },
 })
 export default class SignUpForm extends Vue {
   userId: string = '';
-  lastName: string = '';
-  firstName: string = '';
+  givenName: string = '';
+  familyName: string = '';
   password: string = '';
 
   errors: string[] = [];
@@ -57,12 +59,12 @@ export default class SignUpForm extends Vue {
       this.errors.push('User ID is required.');
     }
 
-    if (!this.lastName) {
-      this.errors.push('Last Name is required.');
+    if (!this.givenName) {
+      this.errors.push('Given Name is required.');
     }
 
-    if (!this.firstName) {
-      this.errors.push('First Name is required.');
+    if (!this.familyName) {
+      this.errors.push('Family Name is required.');
     }
 
     if (!this.password) {
@@ -72,11 +74,11 @@ export default class SignUpForm extends Vue {
     // TODO: Error handling for type check.
     SignUpModule.SET_USER_ID(this.userId);
 
-    if (this.userId && this.lastName && this.password) {
-      this.requestSignUp({
+    if (this.userId && this.familyName && this.password) {
+      (this as any).requestSignUp({
         userId: this.userId,
-        givenName: this.firstName,
-        familyName: this.lastName,
+        givenName: this.givenName,
+        familyName: this.familyName,
         password: this.password,
       });
     }
