@@ -1,12 +1,12 @@
-import { Component, Vue } from 'vue-property-decorator';
-import AWS from 'aws-sdk/global';
+import { Component, Vue } from "vue-property-decorator";
+import AWS from "aws-sdk/global";
 import {
   AuthenticationDetails,
   CognitoUser,
   CognitoUserPool,
   CognitoUserAttribute,
-} from 'amazon-cognito-identity-js';
-import { SignUpType, SignInType } from '@/types/';
+} from "amazon-cognito-identity-js";
+import { SignUpType, SignInType } from "@/types/";
 
 const CONFIG = {
   region: process.env.VUE_APP_REGION,
@@ -27,15 +27,15 @@ const USER_POOL = new CognitoUserPool({
 
 @Component
 export default class Config extends Vue {
-  signUp(params: SignUpType) {
+  signUp(params: SignUpType): Promise<any> {
     const { userId, givenName, familyName, password } = params;
 
     const now = Math.floor(new Date().getTime() / 1000);
 
     const attributeList = [
-      new CognitoUserAttribute({ Name: 'given_name', Value: givenName }),
-      new CognitoUserAttribute({ Name: 'family_name', Value: familyName }),
-      new CognitoUserAttribute({ Name: 'updated_at', Value: String(now) }),
+      new CognitoUserAttribute({ Name: "given_name", Value: givenName }),
+      new CognitoUserAttribute({ Name: "family_name", Value: familyName }),
+      new CognitoUserAttribute({ Name: "updated_at", Value: String(now) }),
     ];
 
     return new Promise((resolve, reject) => {
@@ -55,7 +55,7 @@ export default class Config extends Vue {
     });
   }
 
-  signIn(params: SignInType) {
+  signIn(params: SignInType): Promise<any> {
     const { userId, password } = params;
 
     const cognitoUser = new CognitoUser({

@@ -1,16 +1,16 @@
 <template>
   <form @submit="submit">
-    <label>Image: <input type="file" name="file" @change='selectFile' /></label>
-    <Button buttonLabel="SUBMIT" type="submit" />
+    <label>Image: <input type="file" name="file" @change="selectFile" /></label>
+    <Button button-label="SUBMIT" type="submit" />
   </form>
-</template>>
+</template>
 
 <script lang="ts">
-import axios from 'axios';
-import { Component, Vue, Emit } from 'vue-property-decorator';
-import Button from '@/components/Button.vue';
-import { HTMLElementEvent } from '@/types/';
-import { UploadFileType } from '@/types/';
+import axios from "axios";
+import { Component, Vue, Emit } from "vue-property-decorator";
+import Button from "@/components/Button.vue";
+import { HTMLElementEvent } from "@/types/";
+import { UploadFileType } from "@/types/";
 
 @Component({
   data() {
@@ -34,11 +34,11 @@ export default class ImageUploader extends Vue {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append('file', (this as any).uploadFile);
+    formData.append("file", (this as any).uploadFile);
 
-    axios.post('http://127.0.0.1:3000/upload', formData, {
+    axios.post("http://127.0.0.1:3000/upload", formData, {
       headers: {
-        'content-type': 'multipart/form-data',
+        "content-type": "multipart/form-data",
       },
     });
   }

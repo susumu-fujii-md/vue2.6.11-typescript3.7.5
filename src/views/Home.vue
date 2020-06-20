@@ -1,12 +1,12 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
+    <img alt="Vue logo" src="../assets/logo.png" />
     <h2>Sign Up</h2>
     <SignUpForm />
-    <hr>
+    <hr />
     <h2>Sign In</h2>
     <SignInForm />
-    <hr>
+    <hr />
     <h2>Upload Image</h2>
     <ImageUploader />
   </div>
@@ -14,16 +14,16 @@
 
 <script>
 // @ is an alias to /src
-import SignUpForm from '@/components/SignUpForm.vue'
-import SignInForm from '@/components/SignInForm.vue'
-import ImageUploader from '@/components/ImageUploader.vue'
+import SignUpForm from "@/components/SignUpForm.vue";
+import SignInForm from "@/components/SignInForm.vue";
+import ImageUploader from "@/components/ImageUploader.vue";
 
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
     SignUpForm,
     SignInForm,
-    ImageUploader
-  }
-}
+    ImageUploader,
+  },
+};
 </script>

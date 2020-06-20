@@ -3,16 +3,16 @@ import {
   Module,
   Mutation,
   VuexModule,
-} from 'vuex-module-decorators';
-import { store } from '@/store';
-import { SignUpType } from '@/types/';
+} from "vuex-module-decorators";
+import { store } from "@/store";
+import { SignUpType } from "@/types/";
 
-@Module({ dynamic: true, store, name: '_SignUp', namespaced: true })
+@Module({ dynamic: true, store, name: "_SignUp", namespaced: true })
 class SignUp extends VuexModule implements SignUpType {
-  userId: string = '';
-  familyName: string = '';
-  givenName: string = '';
-  password: string = '';
+  userId = "";
+  familyName = "";
+  givenName = "";
+  password = "";
 
   @Mutation
   public SET_USER_ID(userId: string): void {
